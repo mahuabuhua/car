@@ -6,7 +6,7 @@
         <p>{{ $t('about.business.description') }}</p>
       </div>
     </div>
-  </div>
+  </div> 
 </template>
 
 <style lang="scss" scoped>
