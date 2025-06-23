@@ -102,7 +102,7 @@ export default {
         ...this.form,
         time
       }
-      this.$axios.post('http://localhost:8080/api/user-contacts/save', payload)
+      this.$axios.post('/api/user-contacts/save', payload)
         .then(() => {
           this.$message
             ? this.$message.success(this.$t('contact.form.success'))

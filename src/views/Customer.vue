@@ -114,7 +114,7 @@ export default {
         Object.keys(params).forEach(key => {
           if (!params[key]) delete params[key]
         })
-        const res = await this.$axios.get('http://localhost:8080/api/user-contacts/list', { params })
+        const res = await this.$axios.get('/api/user-contacts/list', { params })
         this.customers = res.data.list || res.data.data || []
         this.total = res.data.total || 0
       } catch (e) {
