@@ -71,7 +71,7 @@
           <router-link to="/" exact>{{ $t('nav.home') }}</router-link>
           <router-link to="/about">{{ $t('nav.about') }}</router-link>
           <router-link to="/service">{{ $t('nav.service') }}</router-link>
-          <router-link to="/team">{{ $t('nav.team') }}</router-link>
+          <!-- <router-link to="/team">{{ $t('nav.team') }}</router-link> -->
           <router-link to="/contact">{{ $t('nav.contact') }}</router-link>
         </div>
       </div>
