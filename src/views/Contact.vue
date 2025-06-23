@@ -295,5 +295,17 @@ export default {
     max-width: 100%;
     margin-bottom: 0;
   }
+  .form-container {
+    max-width: 100vw;
+    padding: 0 8px;
+  }
+  .contact-form .form-group input,
+  .contact-form .form-group textarea {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0 auto;
+    font-size: 1rem;
+  }
 }
 </style> 

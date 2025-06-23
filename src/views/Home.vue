@@ -798,32 +798,28 @@ export default {
     }
 
     .slogan-section {
-      padding: 60px 20px;
-
+      padding: 30px 8px !important;
       .slogan-inner {
-        .slogan-line {
-          width: 40px;
-          height: 2px;
-          margin-bottom: 20px;
-        }
-
         h2 {
-          font-size: 2rem;
-          margin-bottom: 20px;
+          font-size: 1.3rem !important;
         }
-
         p {
-          font-size: 1rem;
-          line-height: 1.6;
+          font-size: 0.95rem !important;
         }
       }
-    }
-
-    .footer-nav {
-      a {
-        margin: 0 0.3rem;
-        font-size: 1rem;
-        padding: 0.3em 0.5em;
+      .footer-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 18px;
+        a {
+          font-size: 0.95rem !important;
+          margin: 0 2px !important;
+          padding: 0.3em 0.6em !important;
+          border-radius: 12px !important;
+          min-width: 60px;
+        }
       }
     }
   }
