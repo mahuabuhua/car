@@ -16,7 +16,7 @@ const i18n = new VueI18n({
   messages
 })
 
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://207.148.82.116:8080'
 Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
