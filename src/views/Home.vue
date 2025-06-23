@@ -1,64 +1,221 @@
 <template>
   <div class="home">
-    <div class="hero">
+    <div class="hero" @click="goToContact">
       <h1>{{ $t('home.title') }}</h1>
       <p>{{ $t('home.description') }}</p>
     </div>
-    <div class="services-section">
+    
+    <div class="commitment-section">
       <div class="container">
-        <h2>{{ $t('home.services.title') }}</h2>
-        <p class="services-intro">{{ $t('home.services.intro') }}</p>
-        
-        <div class="services-grid">
-          <div class="service-card">
-            <h3>{{ $t('home.services.sections.largeCoach.title') }}</h3>
-            <ul>
-              <li v-for="(feature, index) in $t('home.services.sections.largeCoach.features')" :key="index">
-                {{ feature }}
-              </li>
-            </ul>
-          </div>
+        <h2>{{ $t('home.commitment.title') }}</h2>
+        <div class="commitment-content">
+          <p>{{ $t('home.commitment.paragraph1') }}</p>
+          <p>{{ $t('home.commitment.paragraph2') }}</p>
+        </div>
+        <router-link to="/service" class="service-button">
+          {{ $t('home.commitment.serviceButton') }}
+        </router-link>
+      </div>
+    </div>
 
-          <div class="service-card">
-            <h3>{{ $t('home.services.sections.smallCoach.title') }}</h3>
-            <ul>
-              <li v-for="(feature, index) in $t('home.services.sections.smallCoach.features')" :key="index">
-                {{ feature }}
-              </li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <h3>{{ $t('home.services.sections.tourGuide.title') }}</h3>
-            <ul>
-              <li v-for="(feature, index) in $t('home.services.sections.tourGuide.features')" :key="index">
-                {{ feature }}
-              </li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <h3>{{ $t('home.services.sections.cruiseShip.title') }}</h3>
-            <ul>
-              <li v-for="(feature, index) in $t('home.services.sections.cruiseShip.features')" :key="index">
-                {{ feature }}
-              </li>
-            </ul>
+    <div class="why-choose-us-section">
+      <div class="container">
+        <div class="statements-grid">
+          <div class="statement-item" v-for="(statement, index) in statements" :key="index">
+            <div class="statement-icon">
+              <i :class="statement.icon"></i>
+            </div>
+            <p>{{ statement.text }}</p>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="guided-tour-section">
-          <p>{{ $t('home.services.guidedTour') }}</p>
+    <div class="partners-section">
+      <div class="container">
+        <h2>{{ $t('home.partners.title') }}</h2>
+        <div class="partners-grid">
+          <div class="partner-item" v-for="(partner, index) in partners" :key="index">
+            <div class="partner-image" :class="{ 'partner-image-cover': index === 2 }">
+              <img :src="partner.image" :alt="partner.name">
+            </div>
+            <h4>{{ partner.name }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials-section">
+      <div class="container">
+        <h2>{{ $t('home.testimonials.title') }}</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-item" v-for="(testimonial, index) in testimonials" :key="index">
+            <div class="testimonial-content">
+              <p>{{ testimonial.content }}</p>
+              <div class="testimonial-author">
+                <span class="guest-info">{{ testimonial.author }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slogan-section">
+      <div class="slogan-inner">
+        <div class="slogan-line"></div>
+        <h2>{{ $t('home.slogan.title') }}</h2>
+        <p>{{ $t('home.slogan.content') }}</p>
+        <div class="slogan-line"></div>
+        <div class="footer-nav">
+          <router-link to="/" exact>{{ $t('nav.home') }}</router-link>
+          <router-link to="/about">{{ $t('nav.about') }}</router-link>
+          <router-link to="/service">{{ $t('nav.service') }}</router-link>
+          <router-link to="/team">{{ $t('nav.team') }}</router-link>
+          <router-link to="/contact">{{ $t('nav.contact') }}</router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Home',
+  data() {
+    return {
+      statements: [
+        {
+          icon: 'fas fa-shield-alt',
+          text: this.$t('home.whyChooseUs.statement1')
+        },
+        {
+          icon: 'fas fa-heart',
+          text: this.$t('home.whyChooseUs.statement2')
+        },
+        {
+          icon: 'fas fa-handshake',
+          text: this.$t('home.whyChooseUs.statement3')
+        },
+        {
+          icon: 'fas fa-leaf',
+          text: this.$t('home.whyChooseUs.statement4')
+        },
+        {
+          icon: 'fas fa-star',
+          text: this.$t('home.whyChooseUs.statement5')
+        }
+      ],
+      partners: [
+        {
+          image: require('../assets/1.jpg'),
+          name: 'NZ Transport Agency'
+        },
+        {
+          image: require('../assets/2.jpg'),
+          name: 'Bus and Coach Association'
+        },
+        {
+          image: require('../assets/3.jpg'),
+          name: 'VTNZ'
+        }
+      ],
+      testimonials: [
+        {
+          content: this.$t('home.testimonials.testimonial1.content'),
+          author: this.$t('home.testimonials.testimonial1.author')
+        },
+        {
+          content: this.$t('home.testimonials.testimonial2.content'),
+          author: this.$t('home.testimonials.testimonial2.author')
+        }
+      ],
+      logoClickCount: 0,
+      logoClickTimer: null
+    }
+  },
+  watch: {
+    '$i18n.locale'() {
+      this.updateTranslations()
+    }
+  },
+  methods: {
+    goToContact() {
+      this.$router.push('/contact')
+    },
+    updateTranslations() {
+      this.statements = [
+        {
+          icon: 'fas fa-shield-alt',
+          text: this.$t('home.whyChooseUs.statement1')
+        },
+        {
+          icon: 'fas fa-heart',
+          text: this.$t('home.whyChooseUs.statement2')
+        },
+        {
+          icon: 'fas fa-handshake',
+          text: this.$t('home.whyChooseUs.statement3')
+        },
+        {
+          icon: 'fas fa-leaf',
+          text: this.$t('home.whyChooseUs.statement4')
+        },
+        {
+          icon: 'fas fa-star',
+          text: this.$t('home.whyChooseUs.statement5')
+        }
+      ]
+      this.partners = [
+        {
+          image: require('../assets/1.jpg'),
+          name: 'NZ Transport Agency'
+        },
+        {
+          image: require('../assets/2.jpg'),
+          name: 'Bus and Coach Association'
+        },
+        {
+          image: require('../assets/3.jpg'),
+          name: 'VTNZ'
+        }
+      ]
+      this.testimonials = [
+        {
+          content: this.$t('home.testimonials.testimonial1.content'),
+          author: this.$t('home.testimonials.testimonial1.author')
+        },
+        {
+          content: this.$t('home.testimonials.testimonial2.content'),
+          author: this.$t('home.testimonials.testimonial2.author')
+        }
+      ]
+    },
+    handleLogoClick() {
+      if (this.logoClickTimer) clearTimeout(this.logoClickTimer)
+      this.logoClickCount++
+      if (this.logoClickCount >= 5) {
+        this.logoClickCount = 0
+        const pwd = prompt('请输入管理员口令：')
+        if (pwd === 'admin2024') {
+          this.$router.push('/customer')
+        } else if (pwd !== null) {
+          alert('口令错误！')
+        }
+      } else {
+        this.logoClickTimer = setTimeout(() => {
+          this.logoClickCount = 0
+        }, 1500)
+      }
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .home {
   .hero {
-    background-image: url('../assets/nz-hero.jpg');
+    background-image: url('../assets/nz-hero.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -72,6 +229,7 @@
     margin-bottom: 2rem;
     position: relative;
     margin: auto;
+    cursor: pointer;
 
     &::before {
       content: '';
@@ -100,7 +258,7 @@
     }
   }
 
-  .services-section {
+  .commitment-section {
     padding: 4rem 2rem;
     background-color: #fff;
 
@@ -124,113 +282,356 @@
           transform: translateX(-50%);
           width: 100px;
           height: 3px;
-          background-color: #42b983;
+          background-color: #667eea;
         }
       }
 
-      .services-intro {
-        color: #666;
-        font-size: 1.2rem;
-        line-height: 1.8;
+      .commitment-content {
         max-width: 900px;
         margin: 0 auto 3rem;
+
+        p {
+          color: #666;
+          font-size: 1.1rem;
+          line-height: 1.8;
+          margin-bottom: 1.5rem;
+          text-align: left;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
       }
 
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        padding: 1rem;
+      .service-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 
-        .service-card {
-          background: #f8f9fa;
-          padding: 2rem;
-          border-radius: 8px;
-          text-align: left;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+  }
+
+  .why-choose-us-section {
+    padding: 4rem 2rem;
+    background-color: #fff;
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+
+      .statements-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .statement-item {
+          flex: 1;
+          min-width: 0;
+          text-align: center;
+          padding: 1.5rem 1rem;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border-radius: 15px;
+          border: 1px solid #e9ecef;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 
           &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
           }
 
-          h3 {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #42b983;
-          }
+          .statement-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
 
-          ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-              color: #666;
-              font-size: 1rem;
-              line-height: 1.6;
-              margin-bottom: 1rem;
-              padding-left: 1.5rem;
-              position: relative;
-
-              &::before {
-                content: '•';
-                color: #42b983;
-                position: absolute;
-                left: 0;
-                font-size: 1.2rem;
-              }
-
-              &:last-child {
-                margin-bottom: 0;
-              }
+            i {
+              font-size: 1.5rem;
+              color: white;
             }
+          }
+
+          p {
+            color: #495057;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 500;
           }
         }
       }
     }
   }
 
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+  .partners-section {
+    padding: 4rem 2rem;
+    background-color: #fff;
 
-    img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
 
-      &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      h2 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        padding-bottom: 1rem;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100px;
+          height: 3px;
+          background-color: #667eea;
+        }
+      }
+
+      .partners-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .partner-item {
+          flex: 1;
+          min-width: 0;
+          text-align: center;
+          padding: 1.5rem 1rem;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border-radius: 15px;
+          border: 1px solid #e9ecef;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+          &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          }
+
+          .partner-image {
+            width: 200px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              background-color: white;
+            }
+
+            &.partner-image-cover img {
+              object-fit: cover;
+            }
+          }
+
+          h4 {
+            color: #495057;
+            font-size: 0.95rem;
+            margin: 0;
+            font-weight: 500;
+          }
+        }
       }
     }
   }
-}
 
-.guided-tour-section {
-  margin-top: 3rem;
-  text-align: center;
-  padding: 2rem;
-  background-color: rgba(66, 185, 131, 0.1);
-  border-radius: 8px;
+  .testimonials-section {
+    padding: 4rem 2rem;
+    background-color: #fff;
 
-  p {
-    color: #2c3e50;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin: 0;
-    font-style: italic;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+
+      h2 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        padding-bottom: 1rem;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100px;
+          height: 3px;
+          background-color: #667eea;
+        }
+      }
+
+      .testimonials-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .testimonial-item {
+          flex: 1;
+          min-width: 0;
+          text-align: center;
+          padding: 1.5rem 1rem;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border-radius: 15px;
+          border: 1px solid #e9ecef;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+          &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          }
+
+          .testimonial-content {
+            max-width: 900px;
+            margin: 0 auto 1rem;
+
+            p {
+              color: #666;
+              font-size: 1.1rem;
+              line-height: 1.8;
+              margin-bottom: 1rem;
+              text-align: left;
+            }
+          }
+
+          .testimonial-author {
+            color: #495057;
+            font-size: 0.95rem;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+
+  .slogan-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 1.5rem;
+
+    .slogan-inner {
+      position: relative;
+
+      .slogan-line {
+        width: 100%;
+        height: 2px;
+        background-color: white;
+        margin-bottom: 25px;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: white;
+        position: relative;
+        padding-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 40px;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        color: white;
+      }
+    }
+  }
+
+  .footer-nav {
+    margin-top: 2rem;
+    text-align: center;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1.2rem;
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      padding: 0.3em 0.8em;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    a.router-link-exact-active,
+    a:hover {
+      background: rgba(255,255,255,0.18);
+      color: #ffe082;
+      text-decoration: none;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
   }
 }
 
@@ -253,7 +654,7 @@
       }
     }
 
-    .services-section {
+    .commitment-section {
       padding: 2rem 1rem;
 
       .container {
@@ -262,52 +663,167 @@
           margin-bottom: 1.5rem;
         }
 
-        .services-intro {
-          font-size: 1rem;
-          line-height: 1.6;
+        .commitment-content {
           margin-bottom: 2rem;
-          padding: 0 1rem;
+
+          p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+          }
         }
 
-        .services-grid {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-          padding: 0.5rem;
+        .service-button {
+          padding: 12px 30px;
+          font-size: 1rem;
+        }
+      }
+    }
 
-          .service-card {
-            padding: 1.5rem;
+    .why-choose-us-section {
+      padding: 2rem 1rem;
 
-            h3 {
-              font-size: 1.3rem;
-              margin-bottom: 1rem;
+      .container {
+        .statements-grid {
+          flex-direction: column;
+          gap: 1rem;
+
+          .statement-item {
+            min-width: auto;
+            padding: 1.5rem 1rem;
+            
+            .statement-icon {
+              width: 50px;
+              height: 50px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto 1rem;
+
+              i {
+                font-size: 1.3rem;
+                color: white;
+              }
             }
-
-            ul li {
-              font-size: 0.95rem;
-              margin-bottom: 0.8rem;
+            
+            p {
+              font-size: 1rem;
+              line-height: 1.6;
             }
           }
         }
       }
     }
 
-    .gallery {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1rem;
+    .partners-section {
+      padding: 2rem 1rem;
 
-      img {
-        height: 300px;
-        border-radius: 8px;
+      .container {
+        h2 {
+          font-size: 2rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .partners-grid {
+          flex-direction: column;
+          gap: 1rem;
+
+          .partner-item {
+            min-width: auto;
+            padding: 1.5rem 1rem;
+            
+            .partner-image {
+              width: 180px;
+              height: 100px;
+              margin: 0 auto 0.8rem;
+              border-radius: 10px;
+              overflow: hidden;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background-color: white;
+              }
+
+              &.partner-image-cover img {
+                object-fit: cover;
+              }
+            }
+            
+            h4 {
+              font-size: 0.95rem;
+            }
+          }
+        }
       }
     }
 
-    .guided-tour-section {
-      margin-top: 2rem;
-      padding: 1.5rem;
+    .testimonials-section {
+      padding: 2rem 1rem;
 
-      p {
+      .container {
+        h2 {
+          font-size: 2rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .testimonials-grid {
+          flex-direction: column;
+          gap: 1rem;
+
+          .testimonial-item {
+            min-width: auto;
+            padding: 1.5rem 1rem;
+            
+            .testimonial-content {
+              max-width: 900px;
+              margin: 0 auto 1rem;
+
+              p {
+                font-size: 1rem;
+                line-height: 1.6;
+              }
+            }
+            
+            .testimonial-author {
+              font-size: 0.95rem;
+            }
+          }
+        }
+      }
+    }
+
+    .slogan-section {
+      padding: 60px 20px;
+
+      .slogan-inner {
+        .slogan-line {
+          width: 40px;
+          height: 2px;
+          margin-bottom: 20px;
+        }
+
+        h2 {
+          font-size: 2rem;
+          margin-bottom: 20px;
+        }
+
+        p {
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+      }
+    }
+
+    .footer-nav {
+      a {
+        margin: 0 0.3rem;
         font-size: 1rem;
+        padding: 0.3em 0.5em;
       }
     }
   }
@@ -328,7 +844,7 @@
       }
     }
 
-    .services-section {
+    .commitment-section {
       padding: 3rem 1.5rem;
 
       .container {
@@ -336,33 +852,146 @@
           font-size: 2.2rem;
         }
 
-        .services-intro {
-          font-size: 1.1rem;
+        .commitment-content {
+          p {
+            font-size: 1.05rem;
+          }
         }
 
-        .services-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.5rem;
+        .service-button {
+          padding: 14px 35px;
+          font-size: 1.05rem;
         }
       }
     }
 
-    .gallery {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      padding: 1.5rem;
+    .why-choose-us-section {
+      padding: 3rem 1.5rem;
 
-      img {
-        height: 350px;
+      .container {
+        .statements-grid {
+          gap: 0.8rem;
+
+          .statement-item {
+            padding: 1.2rem 0.8rem;
+            
+            .statement-icon {
+              width: 55px;
+              height: 55px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto 0.8rem;
+
+              i {
+                font-size: 1.4rem;
+                color: white;
+              }
+            }
+            
+            p {
+              font-size: 0.9rem;
+              line-height: 1.4;
+            }
+          }
+        }
       }
     }
 
-    .guided-tour-section {
-      margin-top: 2.5rem;
-      padding: 1.8rem;
+    .partners-section {
+      padding: 3rem 1.5rem;
 
-      p {
-        font-size: 1.1rem;
+      .container {
+        h2 {
+          font-size: 2.2rem;
+        }
+
+        .partners-grid {
+          gap: 0.8rem;
+
+          .partner-item {
+            padding: 1.2rem 0.8rem;
+            
+            .partner-image {
+              width: 180px;
+              height: 100px;
+              margin: 0 auto 0.8rem;
+              border-radius: 10px;
+              overflow: hidden;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background-color: white;
+              }
+
+              &.partner-image-cover img {
+                object-fit: cover;
+              }
+            }
+            
+            h4 {
+              font-size: 0.95rem;
+            }
+          }
+        }
+      }
+    }
+
+    .testimonials-section {
+      padding: 3rem 1.5rem;
+
+      .container {
+        h2 {
+          font-size: 2.2rem;
+        }
+
+        .testimonials-grid {
+          gap: 0.8rem;
+
+          .testimonial-item {
+            padding: 1.2rem 0.8rem;
+            
+            .testimonial-content {
+              max-width: 900px;
+              margin: 0 auto 1rem;
+
+              p {
+                font-size: 1rem;
+                line-height: 1.6;
+              }
+            }
+            
+            .testimonial-author {
+              font-size: 0.95rem;
+            }
+          }
+        }
+      }
+    }
+
+    .slogan-section {
+      padding: 3rem 1.5rem;
+
+      .slogan-inner {
+        .slogan-line {
+          width: 50px;
+          height: 2.5px;
+          margin-bottom: 25px;
+        }
+
+        h2 {
+          font-size: 2.2rem;
+        }
+
+        p {
+          font-size: 1.05rem;
+          line-height: 1.7;
+        }
       }
     }
   }

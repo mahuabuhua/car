@@ -2,13 +2,14 @@
   <div id="app">
     <nav class="navbar" :class="{ 'navbar-scrolled': isScrolled }">
       <div class="logo">
-        <img src="./assets/logo.png" alt="Logo">
+        <img src="./assets/logo.png" alt="Logo" @click="handleLogoClick">
       </div>
       <div class="nav-links" :class="{ 'nav-active': isMenuOpen }">
         <router-link to="/" @click="closeMenu">{{ $t('nav.home') }}</router-link>
         <router-link to="/about" @click="closeMenu">{{ $t('nav.about') }}</router-link>
+        <router-link to="/service" @click="closeMenu">{{ $t('nav.service') }}</router-link>
         <router-link to="/contact" @click="closeMenu">{{ $t('nav.contact') }}</router-link>
-        <router-link to="/team" @click="closeMenu">{{ $t('nav.team') }}</router-link>
+        <!-- <router-link to="/team" @click="closeMenu">{{ $t('nav.team') }}</router-link> -->
         <select v-model="$i18n.locale" @change="closeMenu">
           <option value="en">English</option>
           <option value="zh">中文</option>
@@ -29,7 +30,9 @@ export default {
   data() {
     return {
       isMenuOpen: false,
-      isScrolled: false
+      isScrolled: false,
+      logoClickCount: 0,
+      logoClickTimer: null
     }
   },
   mounted() {
@@ -47,6 +50,24 @@ export default {
     },
     handleScroll() {
       this.isScrolled = window.scrollY > 50
+    },
+    handleLogoClick() {
+      if (this.logoClickTimer) clearTimeout(this.logoClickTimer)
+      this.logoClickCount++
+      if (this.logoClickCount >= 5) {
+        this.logoClickCount = 0
+        const pwd = prompt('请输入管理员口令：')
+        if (pwd === 'kl2025') {
+          localStorage.setItem('customer_authed', '1');
+          this.$router.push('/customer')
+        } else if (pwd !== null) {
+          alert('口令错误！')
+        }
+      } else {
+        this.logoClickTimer = setTimeout(() => {
+          this.logoClickCount = 0
+        }, 1500)
+      }
     }
   },
   watch: {
@@ -119,11 +140,11 @@ export default {
       transition: color 0.3s ease;
 
       &:hover {
-        color: #42b983;
+        color: #667eea;
       }
 
       &.router-link-exact-active {
-        color: #42b983;
+        color: #667eea;
       }
     }
 
@@ -139,7 +160,7 @@ export default {
 
       &:focus {
         outline: none;
-        border-color: #42b983;
+        border-color: #667eea;
       }
     }
   }
