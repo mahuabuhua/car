@@ -108,6 +108,10 @@ export default {
       ],
       partners: [
         {
+          image: require('../assets/4.jpg'),
+          name: 'Qualmark'
+        },
+        {
           image: require('../assets/1.jpg'),
           name: 'NZ Transport Agency'
         },
@@ -118,7 +122,8 @@ export default {
         {
           image: require('../assets/3.jpg'),
           name: 'VTNZ'
-        }
+        },
+        
       ],
       testimonials: [
         {
