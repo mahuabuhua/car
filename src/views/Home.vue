@@ -458,9 +458,9 @@ export default {
               background-color: white;
             }
 
-            &.partner-image-cover img {
-              object-fit: cover;
-            }
+            // &.partner-image-cover img {
+            //   //  object-fit: cover;
+            // }
           }
 
           h4 {
